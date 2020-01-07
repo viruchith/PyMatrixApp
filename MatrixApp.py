@@ -92,6 +92,13 @@ def stringConvert(s):
                 temp = "dot("+s[i-1]+","+s[i+1]+")"
                 rep = s[i-1:i+2]
                 s = s.replace(rep, temp)
+            elif s[i-1] in varList and s[i+1] in varList:
+                temp = "dot("+s[i-1]+","+s[i+1]+")"
+                rep = s[i-1:i+2]
+                s = s.replace(rep, temp)
+            
+            
+            
 
         else:
             break
