@@ -6,6 +6,7 @@ rWin = None
 
 
 class Matrix(object):
+
     def __init__(self, mat):
       self.mat = mat
 
@@ -66,7 +67,7 @@ def windowDestroy():
 def calculation(A, B, C, D, I, OP, ans):
     register = {"A": A, "B": B, "C": C, "D": D,
                 "I": I, "OP": OP, "ans": ans, "Matrix": Matrix}
-    exec(OP, register)
+    exec(OP,{"__builtins__":None},register)
     ans = register["ans"]
     windowDestroy()
     resultDisp(ans)
