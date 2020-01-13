@@ -3,6 +3,7 @@ from numpy import dot
 from numpy.linalg import matrix_power
 from tkinter import *
 rWin = None
+rt=None
 
 
 class Matrix(object):
@@ -67,20 +68,44 @@ def windowDestroy():
 def calculation(A, B, C, D, I, OP, ans):
     register = {"A": A, "B": B, "C": C, "D": D,
                 "I": I, "OP": OP, "ans": ans, "Matrix": Matrix}
-    exec(OP,{"__builtins__":None},register)
+    try:
+        exec(OP,{"__builtins__":None},register)
+    except SyntaxError:
+        from tkinter import messagebox
+        mb2 = Tk()
+        mb2.withdraw()
+        messagebox.showerror("Invalid Operation", "Enter a valid matrix operation.")
+        register["ans"]="Error"
+    except TypeError:
+        from tkinter import messagebox
+        mb3 = Tk()
+        mb3.withdraw()
+        messagebox.showerror("Invalid Operation","Enter a valid matrix operation.")
+        register["ans"] = "Error"
+
     ans = register["ans"]
     windowDestroy()
     resultDisp(ans)
+    
 
 
-def getValues(a="0 0 0;0 0 0;0 0 0", b="0 0 0;0 0 0;0 0 0", c="0 0 0;0 0 0;0 0 0", d="0 0 0;0 0 0;0 0 0", op="None"):
-    mat1 = np.array(intConvert(a))
-    mat2 = Matrix(np.array(intConvert(b)))
-    mat3 = Matrix(np.array(intConvert(c)))
-    mat4 = Matrix(np.array(intConvert(d)))
-    size = mat1.shape
-    mat1 = Matrix(np.array(intConvert(a)))
-    matid = Matrix(np.identity(size[0], dtype=int))
+
+def getValues(a="0 0 0;0 0 0;0 0 0", b="0 0 0;0 0 0;0 0 0", c="0 0 0;0 0 0;0 0 0", d="0 0 0;0 0 0;0 0 0", op="None"):    
+    try:
+        mat1 = np.array(intConvert(a))
+        mat2 = Matrix(np.array(intConvert(b)))
+        mat3 = Matrix(np.array(intConvert(c)))
+        mat4 = Matrix(np.array(intConvert(d)))
+        size = mat1.shape
+        mat1 = Matrix(np.array(intConvert(a)))
+        matid = Matrix(np.identity(size[0], dtype=int))
+    except ValueError:
+        from tkinter import messagebox
+        mb1=Tk()
+        mb1.withdraw()
+        messagebox.showerror("Invalid Matrix","Scalars must be separated by spaces,\nonly column vectors are separated by ';'")
+        
+
     op = stringConvert(op)
     calculation(mat1, mat2, mat3, mat4, matid, op, "ans=")
 
@@ -88,52 +113,52 @@ def getValues(a="0 0 0;0 0 0;0 0 0", b="0 0 0;0 0 0;0 0 0", c="0 0 0;0 0 0;0 0 0
 def window():
     rt = Tk()
     rt.title("MatrixOps")
-    rt.configure(bg="#1e3eb3")
+    rt.configure(bg="#000000")
     rt.geometry("500x530")
 
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=0, row=0)
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=1, row=0)
+    Label(rt, text="\n", bg='#000000').grid(column=0, row=0)
+    Label(rt, text="\n", bg='#000000').grid(column=1, row=0)
     Label(rt, text="Mat A:", font=("arialbold", 20),
-          bg='#1e3eb3', fg="#fff23b").grid(column=0, row=1)
+          bg='#000000', fg="#ffffff").grid(column=0, row=1)
     e1 = Entry(rt, font=('arialbold', 20), bg='white')
     e1.grid(column=1, row=1)
     e1.insert(0, "0 0 0;0 0 0;0 0 0"+'\n')
 
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=0, row=2)
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=1, row=2)
+    Label(rt, text="\n", bg='#000000').grid(column=0, row=2)
+    Label(rt, text="\n", bg='#000000').grid(column=1, row=2)
     Label(rt, text="Mat B:", font=("arialbold", 20),
-          bg='#1e3eb3', fg="#fff23b").grid(column=0, row=3)
+          bg='#000000', fg="#ffffff").grid(column=0, row=3)
     e2 = Entry(rt, font=('arialbold', 20), bg='white')
     e2.grid(column=1, row=3)
     e2.insert(0, "0 0 0;0 0 0;0 0 0"+'\n')
 
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=0, row=4)
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=1, row=4)
+    Label(rt, text="\n", bg='#000000').grid(column=0, row=4)
+    Label(rt, text="\n", bg='#000000').grid(column=1, row=4)
     Label(rt, text="Mat C:", font=("arialbold", 20),
-          bg='#1e3eb3', fg="#fff23b").grid(column=0, row=5)
+          bg='#000000', fg="#ffffff").grid(column=0, row=5)
     e3 = Entry(rt, font=('arialbold', 20), bg='white')
     e3.grid(column=1, row=5)
     e3.insert(0, "0 0 0;0 0 0;0 0 0"+'\n')
 
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=0, row=6)
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=1, row=6)
+    Label(rt, text="\n", bg='#000000').grid(column=0, row=6)
+    Label(rt, text="\n", bg='#000000').grid(column=1, row=6)
     Label(rt, text="Mat D:", font=("arialbold", 20),
-          bg='#1e3eb3', fg="#fff23b").grid(column=0, row=7)
+          bg='#000000', fg="#ffffff").grid(column=0, row=7)
     e4 = Entry(rt, font=('arialbold', 20), bg='white')
     e4.grid(column=1, row=7)
     e4.insert(0, "0 0 0;0 0 0;0 0 0"+'\n')
 
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=0, row=8)
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=1, row=8)
+    Label(rt, text="\n", bg='#000000').grid(column=0, row=8)
+    Label(rt, text="\n", bg='#000000').grid(column=1, row=8)
     Label(rt, text="Operation:", font=("arialbold", 20),
-          bg='#1e3eb3', fg="#fff23b").grid(column=0, row=9)
+          bg='#000000', fg="#ffffff").grid(column=0, row=9)
     e5 = Entry(rt, font=('arialbold', 20), bg='white')
     e5.grid(column=1, row=9)
     e5.insert(0, "A+B"+'\n')
 
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=0, row=10)
-    Label(rt, text="\n", bg='#1e3eb3').grid(column=1, row=10)
-    Button(rt, text="Calculate!", font=('arialbold', 20), relief='raised', command=lambda: getValues(
+    Label(rt, text="\n", bg='#000000').grid(column=0, row=10)
+    Label(rt, text="\n", bg='#000000').grid(column=1, row=10)
+    Button(rt, text="Calculate", font=('arialbold', 20), relief='raised', command=lambda: getValues(
         e1.get(), e2.get(), e3.get(), e4.get(), e5.get()), bg='#606060').grid(column=1, row=11)
 
     rt.mainloop()
