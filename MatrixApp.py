@@ -25,6 +25,8 @@ class Matrix(object):
 
     def __str__(self):
         return str(self.mat)
+    def det(self):
+        return Matrix(np.linalg.det(self.mat))
 
 
 def stringConvert(s):
@@ -67,7 +69,7 @@ def windowDestroy():
 
 def calculation(A, B, C, D, I, OP, ans):
     register = {"A": A, "B": B, "C": C, "D": D,
-                "I": I, "OP": OP, "ans": ans, "Matrix": Matrix}
+                "I": I, "OP": OP, "ans": ans, "Matrix": Matrix,"det":Matrix.det}
     try:
         exec(OP,{"__builtins__":None},register)
     except SyntaxError:
